@@ -3,9 +3,7 @@
 
 int main(){
     //uma palavra pré-definida
-    char palavraSecreta[20];
-    //guarda "melancia" no array
-    sprintf(palavraSecreta, "melancia\0");
+    const char palavraSecreta[] = "melancia\0";
     //acertou começa como falso, sem valor
     short acertou = NULL;
     //enforcou começa como positivo
