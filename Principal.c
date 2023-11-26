@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 
+void abertura(){
+    printf("/****************/\n");
+    printf("/ Jogo de Forca */\n");
+    printf("/****************/\n\n");
+}
+
 int main() {
 
     //palavra pré-definida
@@ -13,6 +19,8 @@ int main() {
     //numero limitado de chutes de acordo com o array
     char chutes[26];
     short tentativas = 0;
+
+    abertura();
 
     do {
 
