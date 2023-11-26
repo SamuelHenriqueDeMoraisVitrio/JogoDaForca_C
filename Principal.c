@@ -3,27 +3,33 @@
 
 int main() {
 
-    char palavrasecreta[20];
-    sprintf(palavrasecreta, "melancia");
+    //palavra pré-definida
+    const char palavrasecreta[] = "melancia\0";
 
-    int acertou = 0;
-    int enforcou = 0;
+    //acertou e enforcou começa como falso
+    short acertou = NULL;
+    short enforcou = NULL;
 
+    //numero limitado de chutes de acordo com o array
     char chutes[26];
-    int tentativas = 0;
+    short tentativas = 0;
 
     do {
 
-        for(int i = 0; i < strlen(palavrasecreta); i++) {
-            int achou = 0;
+        //Loop para repetir em todas as casas da palavra secreta
+        for(size_t i = 0; i < strlen(palavrasecreta); i++){
+            //acho começa com 0
+            short achou = 0;
 
-            for(int j = 0; j < tentativas; j++) {
+            //loop para achou receber 1 caso o nu chutado é igual a palavra secreta
+            for(size_t j = 0; j < tentativas; j++){
                 if(chutes[j] == palavrasecreta[i]) {
                     achou = 1;
                     break;
                 }
             }
 
+            //se a palacra ja foi chutada escreva caso não escreva _
             if(achou) {
                 printf("%c ", palavrasecreta[i]);
             } else {
@@ -32,14 +38,13 @@ int main() {
         }
         printf("\n");
 
+        //lê a letra
         char chute;
         printf("Qual letra? ");
         scanf(" %c", &chute);
 
+        //coloca o caracter lido dentro de chutes
         chutes[tentativas] = chute;
         tentativas++;
-
-
     } while (!acertou && !enforcou);
-
 }
