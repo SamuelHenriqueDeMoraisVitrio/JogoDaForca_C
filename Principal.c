@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+//#include "funcoes.h"
 
 char palavrasecreta[20];
 char chutes[26];
-short tentativas = 0;
+short chutesDados = 0;
 
 void abertura(){
     printf("/****************/\n");
@@ -16,25 +17,24 @@ void chuta(){
     printf("Qual letra? ");
     scanf(" %c", &chute);
 
-    chutes[tentativas] = chute;
-    tentativas++;
+    chutes[chutesDados] = chute;
+    chutesDados++;
 }
 
 int jachutou(char letra){
-    short achou = 0;
-    for(size_t j = 0; j < tentativas; j++){
+    int achou = 0;
+    for(size_t j = 0; j < chutesDados; j++){
         if(chutes[j] == letra){
             achou = 1;
             break;
         }
     }
-
     return achou;
 }
 
 void desenhaforca(){
 
-    printf("Você já deu %d chutes\n", tentativas);
+    printf("Você já deu %d chutes\n", chutesDados);
 
     for(size_t i = 0; i < strlen(palavrasecreta); i++){
 
@@ -48,13 +48,49 @@ void desenhaforca(){
 }
 
 void escolhepalavra(){
+    //FILE *arquivo;
     sprintf(palavrasecreta, "melancia");
 }
 
-int main(){
+short acertou(){
+    for(size_t i = 0; i < strlen(palavrasecreta); i++){
+        if(!jachutou(palavrasecreta[i])){
+            return 0;
+        }
+    }
+    return 1;
+}
 
-    int acertou = NULL;
-    int enforcou = NULL;
+short enforcou(){
+
+    short erros = 0;
+
+    // vamos fazer o loop em todos os chutes dados
+    for(size_t i = 0; i < chutesDados; i++){
+
+        short existe = 0;
+
+        // agora vamos olhar letra a letra da palavra secreta
+        // e ver se encontramos o chute aqui
+        for(size_t j = 0; j < strlen(palavrasecreta); j++){
+            if(chutes[i] == palavrasecreta[j]) {
+
+                // encontramos, vamos quebrar o loop
+                existe = 1;
+                break;
+            }
+        }
+
+        // se nao encontrou, soma um na quantidade de erros
+        if(!existe) erros++;
+    }
+
+    // se tivermos mais do que 5 erros, retornamos 1
+    // caso contrario, retornamos 0.
+    return erros >= 5;
+}
+
+int main(){
 
     abertura();
     escolhepalavra();
@@ -64,7 +100,7 @@ int main(){
         desenhaforca();
         chuta();
 
-    } while (!acertou && !enforcou);
+    } while (!acertou() && !enforcou());
 }
 /*
 #include <stdio.h>
