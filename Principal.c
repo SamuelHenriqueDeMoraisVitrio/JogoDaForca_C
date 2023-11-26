@@ -7,14 +7,29 @@ void abertura(){
     printf("/****************/\n\n");
 }
 
-void chuta(char chutesP[26], short tentativasP;){
+void chuta(char chutesP[26], short *tentativasP;){
     //lê a letra
     char chute;
     printf("Qual letra? ");
     scanf(" %c", &chute);
 
     //coloca o caracter lido dentro de chutes
-    chutesP[tentativasP] = chute;
+    chutesP[*tentativasP] = chute;
+    *tentativasP++;
+}
+
+int jaChuto(char letra; char chutes[26], short tentativas){
+    //acho começa com 0
+    short achou = 0;
+
+    //loop para achou receber 1 caso o nu chutado é igual a palavra secreta
+    for(size_t j = 0; j < tentativas; j++){
+        if(chutes[j] == letra) {
+            achou = 1;
+            break;
+        }
+    }
+    return achou;
 }
 
 int main() {
@@ -36,16 +51,8 @@ int main() {
 
         //Loop para repetir em todas as casas da palavra secreta
         for(size_t i = 0; i < strlen(palavrasecreta); i++){
-            //acho começa com 0
-            short achou = 0;
-
-            //loop para achou receber 1 caso o nu chutado é igual a palavra secreta
-            for(size_t j = 0; j < tentativas; j++){
-                if(chutes[j] == palavrasecreta[i]) {
-                    achou = 1;
-                    break;
-                }
-            }
+            
+            int achou = jaChuto(palavrasecreta[i], chutes, tentativas);
 
             //se a palacra ja foi chutada escreva caso não escreva _
             if(achou) {
@@ -56,8 +63,7 @@ int main() {
         }
         printf("\n");
 
-        chuta(chutes, tentativas);
-        tentativas++;
+        chuta(chutes, &tentativas);
     } while (!acertou && !enforcou);
 }
 
