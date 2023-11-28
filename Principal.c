@@ -1,10 +1,39 @@
 #include <stdio.h>
 #include <string.h>
-//#include "funcoes.h"
+#include "forca.h"
 
 char palavrasecreta[20];
 char chutes[26];
 short chutesDados = 0;
+
+short enforcou(){
+
+    short erros = 0;
+
+    // vamos fazer o loop em todos os chutes dados
+    for(size_t i = 0; i < chutesDados; i++){
+
+        short existe = 0;
+
+        // agora vamos olhar letra a letra da palavra secreta
+        // e ver se encontramos o chute aqui
+        for(size_t j = 0; j < strlen(palavrasecreta); j++){
+            if(chutes[i] == palavrasecreta[j]) {
+
+                // encontramos, vamos quebrar o loop
+                existe = 1;
+                break;
+            }
+        }
+
+        // se nao encontrou, soma um na quantidade de erros
+        if(!existe) erros++;
+    }
+
+    // se tivermos mais do que 5 erros, retornamos 1
+    // caso contrario, retornamos 0.
+    return erros >= 5;
+}
 
 void abertura(){
     printf("/****************/\n");
@@ -21,8 +50,8 @@ void chuta(){
     chutesDados++;
 }
 
-int jachutou(char letra){
-    int achou = 0;
+short jachutou(char letra){
+    short achou = 0;
     for(size_t j = 0; j < chutesDados; j++){
         if(chutes[j] == letra){
             achou = 1;
@@ -61,34 +90,6 @@ short acertou(){
     return 1;
 }
 
-short enforcou(){
-
-    short erros = 0;
-
-    // vamos fazer o loop em todos os chutes dados
-    for(size_t i = 0; i < chutesDados; i++){
-
-        short existe = 0;
-
-        // agora vamos olhar letra a letra da palavra secreta
-        // e ver se encontramos o chute aqui
-        for(size_t j = 0; j < strlen(palavrasecreta); j++){
-            if(chutes[i] == palavrasecreta[j]) {
-
-                // encontramos, vamos quebrar o loop
-                existe = 1;
-                break;
-            }
-        }
-
-        // se nao encontrou, soma um na quantidade de erros
-        if(!existe) erros++;
-    }
-
-    // se tivermos mais do que 5 erros, retornamos 1
-    // caso contrario, retornamos 0.
-    return erros >= 5;
-}
 
 int main(){
 
