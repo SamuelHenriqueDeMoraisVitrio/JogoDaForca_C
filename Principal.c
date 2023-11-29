@@ -81,7 +81,7 @@ void desenhaforca(){
 void escolhepalavra(){
     FILE *f;
     
-    f = fopen("palavras.txt", "r");
+    f = fopen("../palavras.txt", "r");
      if(f == 0){
         printf("\n\nErro ao encontrar banco de dados\n\n");
         exit(1);
@@ -89,7 +89,7 @@ void escolhepalavra(){
     short numDeLinhas = 0;
     short linhaAleatoria = 0;
 
-    fscanf(f, "%d", &numDeLinhas);
+    fscanf(f, "%hd", &numDeLinhas);
 
     srand(time(NULL));
     linhaAleatoria = rand() % numDeLinhas;
