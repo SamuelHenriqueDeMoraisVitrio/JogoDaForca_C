@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include "forca.h"
 
 char palavrasecreta[20];
@@ -80,16 +81,16 @@ void desenhaforca(){
 
 void escolhepalavra(){
     FILE *f;
+    short numDeLinhas = NULL;
+    short linhaAleatoria = NULL;
     
-    f = fopen("../palavras.txt", "r");
+    f = fopen("palavras.txt", "r");
      if(f == 0){
         printf("\n\nErro ao encontrar banco de dados\n\n");
         exit(1);
      }
-    short numDeLinhas = 0;
-    short linhaAleatoria = 0;
 
-    fscanf(f, "%hd", &numDeLinhas);
+    fscanf(f, " %d", &numDeLinhas);
 
     srand(time(NULL));
     linhaAleatoria = rand() % numDeLinhas;
@@ -98,9 +99,7 @@ void escolhepalavra(){
         
         fscanf(f, "%s", palavrasecreta);
     }
-
     fclose(f);
-    //sprintf(palavrasecreta, "melancia");
 }
 
 short acertou(){
@@ -112,6 +111,41 @@ short acertou(){
     return 1;
 }
 
+void adicionarPalavra(){
+    char quer;
+
+    printf("Quer adicionar uma nova palavra? [S/N]\n");
+    scanf(" %c", &quer);
+
+    getchar();
+    if(quer == 'S' || quer =='s'){
+        char novaPalavra[20];
+
+        sleep(1);
+        printf("\nDigite uma nova palavra em minusculo\n");
+
+        scanf(" %s", novaPalavra);
+
+        FILE *f;
+
+        f = fopen("palavras.txt", "r+");
+        if(f == 0) {
+            printf("Banco de dados de palavras não disponível\n\n");
+            exit(1);
+        }
+
+        int qtd;
+        fscanf(f, "%d", &qtd);
+        qtd++;
+        fseek(f, 0, SEEK_SET);
+        fprintf(f, "%d", qtd);
+
+        fseek(f, 0, SEEK_END);
+        fprintf(f, "\n%s", novaPalavra);
+
+        fclose(f);
+    }
+}
 
 int main(){
 
@@ -124,4 +158,5 @@ int main(){
         chuta();
 
     } while (!acertou() && !enforcou());
+    adicionarPalavra();
 }
